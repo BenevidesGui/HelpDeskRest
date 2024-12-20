@@ -1,9 +1,9 @@
 package com.example.demo.Service;
 
-import com.example.demo.Exception.AtendendeNaoEditadoException;
-import com.example.demo.Exception.AtendenteNaoDeletado;
-import com.example.demo.Exception.AtendenteNaoEncontradoException;
-import com.example.demo.Exception.AtendenteNãoSalvoException;
+import com.example.demo.Exception.AtendenteException.AtendendeNaoEditadoException;
+import com.example.demo.Exception.AtendenteException.AtendenteNaoDeletado;
+import com.example.demo.Exception.AtendenteException.AtendenteNaoEncontradoException;
+import com.example.demo.Exception.AtendenteException.AtendenteNaoSalvoException;
 import com.example.demo.Model.Atendente;
 import com.example.demo.Repository.AtendenteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +28,7 @@ public class AtendenteService {
             atendente.setNumMatricula(matricula());
             return atendenteRepository.save(atendente);
         } catch (Exception ex) {
-            throw new AtendenteNãoSalvoException("Erro ao salvar o atendente");
+            throw new AtendenteNaoSalvoException("Erro ao salvar o atendente");
         }
     }
 
