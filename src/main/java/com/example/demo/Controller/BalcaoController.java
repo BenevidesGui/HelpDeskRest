@@ -1,7 +1,10 @@
 package com.example.demo.Controller;
 
+import com.example.demo.DTO.AtendenteDTO;
 import com.example.demo.DTO.BalcaoDTO;
+import com.example.demo.Mapper.AtendenteMapper;
 import com.example.demo.Mapper.BalcaoMapper;
+import com.example.demo.Model.Atendente;
 import com.example.demo.Model.Balcao;
 import com.example.demo.Service.BalcaoService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -32,6 +35,23 @@ public class BalcaoController {
     public ResponseEntity<BalcaoDTO> buscarBalcao (@PathVariable Long id){
         Balcao balcaoEncontrado = balcaoService.buscarBalcaoPorId(id);
         BalcaoDTO dto = BalcaoMapper.toDTO(balcaoEncontrado);
+        return ResponseEntity.ok(dto);
+    }
+
+    @PutMapping("/{id}")
+    @Operation(summary = "Editar Balcao")
+    public ResponseEntity<BalcaoDTO> editarBalcao(@PathVariable Long id, @RequestBody BalcaoDTO dto) {
+        Balcao balcao = BalcaoMapper.toEntity(dto);
+        BalcaoDTO responseDto = BalcaoMapper.toDTO(balcaoService.editarBalcao(balcao, id));
+        return ResponseEntity.ok(responseDto);
+    }
+
+    @DeleteMapping("/{id}")
+    @Operation(summary = "Deletar Balcao")
+    public ResponseEntity<BalcaoDTO> deletarBalcao(@PathVariable Long id) {
+        Balcao balcao = balcaoService.buscarBalcaoPorId(id);
+        balcaoService.deleteBalcao(id);
+        BalcaoDTO dto = BalcaoMapper.toDTO(balcao);
         return ResponseEntity.ok(dto);
     }
 }

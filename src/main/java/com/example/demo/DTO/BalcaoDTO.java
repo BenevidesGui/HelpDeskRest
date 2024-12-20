@@ -1,16 +1,18 @@
 package com.example.demo.DTO;
 
 
+import java.util.List;
+
 public class BalcaoDTO {
 
     private Long id;
-    private String chamados;
+    private List chamados;
     private Long atendenteId;
 
 
     public BalcaoDTO() {}
 
-    public BalcaoDTO(Long id, String chamados,Long atendenteId) {
+    public BalcaoDTO(Long id, List chamados,Long atendenteId) {
         this.id = id;
         this.chamados = chamados;
         this.atendenteId = atendenteId;
@@ -25,11 +27,11 @@ public class BalcaoDTO {
         this.id = id;
     }
 
-    public String getChamados() {
+    public List getChamados() {
         return chamados;
     }
 
-    public void setChamados(String chamados) {
+    public void setChamados(List chamados) {
         this.chamados = chamados;
     }
 

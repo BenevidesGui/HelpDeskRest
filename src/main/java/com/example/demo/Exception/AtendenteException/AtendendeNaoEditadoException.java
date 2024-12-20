@@ -1,4 +1,4 @@
-package com.example.demo.Exception;
+package com.example.demo.Exception.AtendenteException;
 
 public class AtendendeNaoEditadoException extends RuntimeException{
 

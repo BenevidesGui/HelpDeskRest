@@ -1,7 +1,10 @@
 package com.example.demo.Model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
+
+import java.util.List;
 
 
 @Entity
@@ -10,8 +13,9 @@ public class Balcao {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotEmpty
-    private String chamados;
+    @OneToMany(mappedBy = "balcao", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<Chamado> chamados;
 
     @OneToOne
     @JoinColumn(name = "atendente_id", referencedColumnName = "id", nullable = false)
@@ -19,12 +23,12 @@ public class Balcao {
 
     public Balcao() {}
 
-    public Balcao(String chamados, Atendente atendente) {
+    public Balcao(List<Chamado> chamados, Atendente atendente) {
         this.chamados = chamados;
         this.atendente = atendente;
     }
 
-    //getters e setters
+    // Getters e Setters
     public Long getId() {
         return id;
     }
@@ -33,11 +37,11 @@ public class Balcao {
         this.id = id;
     }
 
-    public String getChamados() {
+    public List<Chamado> getChamados() {
         return chamados;
     }
 
-    public void setChamados(String chamados) {
+    public void setChamados(List<Chamado> chamados) {
         this.chamados = chamados;
     }
 
