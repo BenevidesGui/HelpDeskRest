@@ -7,6 +7,9 @@ import com.example.demo.Model.Usuario;
 import com.example.demo.Repository.MaquinaRepository;
 import com.example.demo.Service.MaquinaService;
 import com.example.demo.Service.UsuarioService;
+import com.example.demo.Views.View;
+import com.fasterxml.jackson.annotation.JsonView;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,12 +45,43 @@ public class MaquinaController {
     }
 
     @GetMapping("/{deviceId}")
-    public ResponseEntity<Maquina> consultarMaquina(@PathVariable Long deviceId) {
+    @JsonView(View.MaquinaView.class)
+    public ResponseEntity<MaquinaDTO> consultarMaquina(@PathVariable Long deviceId) {
         try {
             Maquina maquina = maquinaService.consultarMaquinaPorDeviceId(deviceId);
-            return ResponseEntity.ok(maquina);
+            MaquinaDTO maquinaDTO = maquinaMapper.toDTO(maquina);
+            return ResponseEntity.ok(maquinaDTO);
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
+
+    @PutMapping("/{deviceId}")
+    @Operation(summary = "Editar Máquina")
+    @JsonView(View.MaquinaView.class)  // Usando a view para controlar a serialização
+    public ResponseEntity<MaquinaDTO> editarMaquina(@PathVariable Long deviceId, @RequestBody MaquinaDTO maquinaDTO) {
+        try {
+            Maquina maquinaParaEditar = maquinaMapper.toEntity(maquinaDTO);
+            maquinaParaEditar.setDeviceId(deviceId);
+            Maquina maquinaEditada = maquinaService.editarMaquina(deviceId, maquinaParaEditar);
+            MaquinaDTO responseDTO = maquinaMapper.toDTO(maquinaEditada);
+
+            return ResponseEntity.ok(responseDTO);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+    }
+
+    @DeleteMapping("/{deviceId}")
+    @Operation(summary = "Deletar Máquina")
+    public ResponseEntity<Void> deletarMaquina(@PathVariable Long deviceId) {
+        try {
+            maquinaService.deletarMaquina(deviceId);
+
+            return ResponseEntity.noContent().build();
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
+
 }

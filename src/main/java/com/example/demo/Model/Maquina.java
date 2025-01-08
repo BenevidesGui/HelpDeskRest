@@ -12,7 +12,7 @@ public class Maquina {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long deviceId;
 
-    @OneToMany(mappedBy = "maquina")
+    @OneToMany(mappedBy = "maquina", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Chamado> chamados;
     private String serialNumber;
 

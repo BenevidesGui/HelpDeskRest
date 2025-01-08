@@ -47,8 +47,8 @@ public class ChamadoMapper {
         dto.setStatus(chamado.getStatus());
 
         dto.setDeviceId(chamado.getMaquina() != null ? chamado.getMaquina().getDeviceId() : null);
-        dto.setBalcaoId(chamado.getBalcao() != null ? chamado.getBalcao().getId() : null);
         dto.setCustomerId(chamado.getUsuario() != null ? chamado.getUsuario().getId() : null);
+        dto.setBalcaoId(chamado.getBalcao() != null ? chamado.getBalcao().getId() : null);
 
         return dto;
     }

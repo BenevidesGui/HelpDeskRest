@@ -18,7 +18,7 @@ public class Usuario {
     @Column(nullable = false, unique = true)
     private String email;
 
-    @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnoreProperties("usuario")
     private List<Maquina> maquinas;
 

@@ -1,12 +1,18 @@
 package com.example.demo.DTO;
+import com.example.demo.Views.View;
+import com.fasterxml.jackson.annotation.JsonView;
 
 import java.util.List;
 
 public class UsuarioDTO {
 
+    @JsonView(View.UserView.class)
     private Long id;
+    @JsonView(View.UserView.class)
     private String nome;
+    @JsonView(View.UserView.class)
     private String email;
+    @JsonView(View.UserView.class)
     private List<MaquinaDTO> maquinas;
 
     // Getters e Setters

@@ -1,5 +1,6 @@
 package com.example.demo.Service;
 
+import com.example.demo.DTO.BalcaoDTO;
 import com.example.demo.Exception.AtendenteException.AtendenteNaoEncontradoException;
 import com.example.demo.Exception.BalcaoException.BalcaoNaoEditadoException;
 import com.example.demo.Exception.BalcaoException.BalcaoNaoEncontradoException;
@@ -9,6 +10,8 @@ import com.example.demo.Model.Balcao;
 import com.example.demo.Repository.BalcaoRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -39,7 +42,7 @@ public class BalcaoService {
 
     public Balcao editarBalcao(Balcao balcao, Long id){
         try {
-            Balcao balcaoExistente = buscarBalcaoPorId(id);
+            buscarBalcaoPorId(id);
             Atendente atendenteValidado = atendenteService.buscarAtendentePorId(balcao.getAtendente().getId());
             balcao.setAtendente(atendenteValidado);
             balcao.setId(id);
@@ -60,5 +63,9 @@ public class BalcaoService {
             atendente.setBalcao(null);
         }
         balcaoRepository.delete(balcao);
+    }
+
+    public Page<BalcaoDTO> buscarBalcaoPaginado(int pagina, int tamanho){
+        return balcaoRepository.findAllBalcao(PageRequest.of(pagina, tamanho));
     }
 }

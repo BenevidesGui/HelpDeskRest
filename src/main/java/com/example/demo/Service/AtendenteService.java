@@ -1,5 +1,6 @@
 package com.example.demo.Service;
 
+import com.example.demo.DTO.AtendenteDTO;
 import com.example.demo.Exception.AtendenteException.AtendendeNaoEditadoException;
 import com.example.demo.Exception.AtendenteException.AtendenteNaoDeletado;
 import com.example.demo.Exception.AtendenteException.AtendenteNaoEncontradoException;
@@ -7,6 +8,8 @@ import com.example.demo.Exception.AtendenteException.AtendenteNaoSalvoException;
 import com.example.demo.Model.Atendente;
 import com.example.demo.Repository.AtendenteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -21,6 +24,10 @@ public class AtendenteService {
     public Atendente buscarAtendentePorId(Long id) {
         return atendenteRepository.findById(id)
                 .orElseThrow(() -> new AtendenteNaoEncontradoException("Atendente com ID " + id + " não encontrado"));
+    }
+
+    public Page<AtendenteDTO> buscarAtendentesPaginados(int pagina, int tamanho) {
+        return atendenteRepository.findAllAtendentes(PageRequest.of(pagina, tamanho));
     }
 
     public Atendente salvarAtendente (Atendente atendente){

@@ -1,20 +1,29 @@
 package com.example.demo.DTO;
 
 
+import com.example.demo.Views.View;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonView;
+
 import java.util.List;
 
 public class BalcaoDTO {
 
     private Long id;
-    private List chamados;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private List<ChamadoDTO> chamados;
     private Long atendenteId;
-
 
     public BalcaoDTO() {}
 
-    public BalcaoDTO(Long id, List chamados,Long atendenteId) {
+    public BalcaoDTO(Long id, List<ChamadoDTO>  chamados,Long atendenteId) {
         this.id = id;
         this.chamados = chamados;
+        this.atendenteId = atendenteId;
+    }
+
+    public BalcaoDTO(Long id, Long atendenteId) {
+        this.id = id;
         this.atendenteId = atendenteId;
     }
 
@@ -27,11 +36,12 @@ public class BalcaoDTO {
         this.id = id;
     }
 
-    public List getChamados() {
+    @JsonView(View.BalcaoView.class)
+    public List<ChamadoDTO>  getChamados() {
         return chamados;
     }
 
-    public void setChamados(List chamados) {
+    public void setChamados(List<ChamadoDTO> chamados) {
         this.chamados = chamados;
     }
 
