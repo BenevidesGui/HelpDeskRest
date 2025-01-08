@@ -1,15 +1,15 @@
 package com.example.demo.Controller;
 
-import com.example.demo.DTO.AtendenteDTO;
 import com.example.demo.DTO.BalcaoDTO;
-import com.example.demo.Mapper.AtendenteMapper;
 import com.example.demo.Mapper.BalcaoMapper;
-import com.example.demo.Model.Atendente;
 import com.example.demo.Model.Balcao;
 import com.example.demo.Service.BalcaoService;
+import com.example.demo.Views.View;
+import com.fasterxml.jackson.annotation.JsonView;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -31,11 +31,18 @@ public class BalcaoController {
     }
 
     @GetMapping("/{id}")
+    @JsonView(View.BalcaoView.class)
     @Operation(summary = "Buscar por ID do Balcao")
     public ResponseEntity<BalcaoDTO> buscarBalcao (@PathVariable Long id){
         Balcao balcaoEncontrado = balcaoService.buscarBalcaoPorId(id);
         BalcaoDTO dto = BalcaoMapper.toDTO(balcaoEncontrado);
         return ResponseEntity.ok(dto);
+    }
+    @GetMapping()
+    public Page<BalcaoDTO> buscarBalcaoPaginado (
+            @RequestParam(defaultValue = "0") int pagina,
+            @RequestParam(defaultValue = "10") int tamanho){
+        return balcaoService.buscarBalcaoPaginado(pagina,tamanho);
     }
 
     @PutMapping("/{id}")
@@ -49,9 +56,8 @@ public class BalcaoController {
     @DeleteMapping("/{id}")
     @Operation(summary = "Deletar Balcao")
     public ResponseEntity<BalcaoDTO> deletarBalcao(@PathVariable Long id) {
-        Balcao balcao = balcaoService.buscarBalcaoPorId(id);
+        balcaoService.buscarBalcaoPorId(id);
         balcaoService.deleteBalcao(id);
-        BalcaoDTO dto = BalcaoMapper.toDTO(balcao);
-        return ResponseEntity.ok(dto);
+        return ResponseEntity.noContent().build();
     }
 }

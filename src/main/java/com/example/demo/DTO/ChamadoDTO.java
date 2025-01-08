@@ -1,20 +1,42 @@
 package com.example.demo.DTO;
 
 import com.example.demo.StatusChamado;
+import com.example.demo.Views.View;
+import com.fasterxml.jackson.annotation.JsonView;
 
 import java.time.LocalDate;
 
 public class ChamadoDTO {
 
+    @JsonView({View.ChamadoView.class, View.BalcaoView.class})
     private Long id;
+    @JsonView(View.ChamadoView.class)
     private Long balcaoId;
-    private Long usuarioId;
+    @JsonView({View.ChamadoView.class, View.BalcaoView.class})
     private LocalDate dataChamado;
+    @JsonView({View.ChamadoView.class, View.BalcaoView.class})
     private LocalDate dataResolucao;
+    @JsonView({View.ChamadoView.class, View.BalcaoView.class})
     private Long deviceId;
+    @JsonView({View.ChamadoView.class, View.BalcaoView.class})
     private Long customerId;
+    @JsonView({View.ChamadoView.class, View.BalcaoView.class})
     private String motivo;
+    @JsonView({View.ChamadoView.class, View.BalcaoView.class})
     private StatusChamado status;
+
+    public ChamadoDTO() {
+    }
+    public ChamadoDTO(Long id, Long balcaoId, LocalDate dataChamado, LocalDate dataResolucao, Long deviceId, Long customerId, String motivo, StatusChamado status) {
+        this.id = id;
+        this.balcaoId = balcaoId;
+        this.dataChamado = dataChamado;
+        this.dataResolucao = dataResolucao;
+        this.deviceId = deviceId;
+        this.customerId = customerId;
+        this.motivo = motivo;
+        this.status = status;
+    }
 
     // Getters e Setters
     public Long getId() {
@@ -33,13 +55,6 @@ public class ChamadoDTO {
         this.balcaoId = balcaoId;
     }
 
-    public Long getUsuarioId() {
-        return usuarioId;
-    }
-
-    public void setUsuarioId(Long usuarioId) {
-        this.usuarioId = usuarioId;
-    }
 
     public LocalDate getDataChamado() {
         return dataChamado;

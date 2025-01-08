@@ -1,10 +1,17 @@
 package com.example.demo.DTO;
 
+import com.example.demo.Views.View;
+import com.fasterxml.jackson.annotation.JsonView;
+
 public class MaquinaDTO {
 
+    @JsonView({View.MaquinaView.class, View.UserView.class})
     private Long deviceId;
+
+    @JsonView({View.MaquinaView.class, View.UserView.class})
     private String serialNumber;
 
+    @JsonView({View.MaquinaView.class})
     private Long customerId;
 
     // Getters e Setters

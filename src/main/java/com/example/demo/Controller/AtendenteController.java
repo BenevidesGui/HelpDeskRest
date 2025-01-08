@@ -7,6 +7,7 @@ import com.example.demo.Service.AtendenteService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +27,13 @@ public class AtendenteController {
         Atendente atendenteEncontrado = atendenteService.buscarAtendentePorId(id);
         AtendenteDTO dto = AtendenteMapper.toDTO(atendenteEncontrado);
         return ResponseEntity.ok(dto);
+    }
+    @GetMapping()
+    public Page<AtendenteDTO> buscarAtendentesPaginados(
+            @RequestParam(defaultValue = "0") int pagina,
+            @RequestParam(defaultValue = "10") int tamanho) {
+
+        return atendenteService.buscarAtendentesPaginados(pagina, tamanho);
     }
 
     @PostMapping()
@@ -55,9 +63,8 @@ public class AtendenteController {
     @DeleteMapping("/{id}")
     @Operation(summary = "Deletar Atendente")
     public ResponseEntity<AtendenteDTO> deletarAtendente(@PathVariable Long id) {
-        Atendente atendente = atendenteService.buscarAtendentePorId(id);
+        atendenteService.buscarAtendentePorId(id);
         atendenteService.deletarAtendente(id);
-        AtendenteDTO dto = AtendenteMapper.toDTO(atendente);
-        return ResponseEntity.ok(dto);
+        return ResponseEntity.noContent().build();
     }
 }
